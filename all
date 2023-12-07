@@ -1,0 +1,256 @@
+Diffie
+
+#include<stdio.h>
+#include<math.h>
+void main()
+{
+int q,a,Xa,Xb,Ya,Yb,Ka,Kb;
+printf("Enter value for Q:");
+scanf("%d",&q);
+printf("Enter the primitive root of %d:",q);
+scanf("%d",&a);
+printf("Enter private key values for A and B:");
+scanf("%d%d",&Xa,&Xb);
+Ya=(a^Xa)%q;
+Yb=(a^Xb)%q;
+//finding values for ka and kb
+Ka=(Yb^Xa)%q;
+Kb=(Ya^Xb)%q;
+printf("Secret key for user A:%d",Ka);
+printf("\n");
+printf("Secret key for user B:%d",Kb);
+printf("\n");
+}
+
+Vernm
+
+#include<stdio.h>
+#include<string.h>
+void main()
+{
+char pt[100],ct[100],key[100];
+int i,j,n;
+printf("enter the text");
+fgets(pt,sizeof(pt).stdin);
+printf("enter the key");
+fgets(key,sizeof(key).stdin);
+for(i=0;i<=strlen(pt);i++)
+{
+if(pt[i]==' ')
+{
+ct[i]==' ';
+}
+if((pt[i]>='a')&&pt(pt[i]<='z'))
+{
+ct[i]=(pt[i]-'a'+key[i]-'a')%26+'a';
+}
+if((pt[i]>='A')&&pt(pt[i]<='Z'))
+{
+ct[i]=(pt[i]-'A'+key[i]-'A')%26+'A';
+}
+}
+}
+printf("the cipher is:");
+for(i=0;i<=strlen(ct);i++
+{
+printf("%c",ct[i]);
+}
+printf("\n");
+}
+
+
+Ceaser
+
+#include<stdio.h>
+#include<string.h>
+void main()
+{
+char pt[100],ct[100];
+int key,i;
+printf("Enter the plaintext:");
+fgets(pt,sizeof(pt),stdin);
+printf("Enter the key:");
+scanf("%d",&key);
+for(i=0;i<=strlen(pt);i++)
+{
+if(pt[i]==' ')
+{
+ct[i]=' ';
+}
+else if(pt[i]>='a'&&pt[i]<='z')
+{
+ct[i]=pt[i]+key;
+if(ct[i]>'z')
+{
+ct[i]=ct[i]-'z'+'a'-1;
+}
+}
+
+else if(pt[i]>='A'&&pt[i]<='Z')
+{
+ct[i]=pt[i]+key;
+if(ct[i]>'Z')
+{
+ct[i]=ct[i]-'Z'+'A'-1;
+}
+}
+}
+
+printf("Cipher text:");
+for(i=0;i<strlen(ct);i++)
+{
+printf("%c",ct[i]);
+}
+printf("\n");
+}
+
+Hill
+
+#include<stdio.h>
+#include<string.h>
+char alph[26]="abcdefghijklmnopqrstuvwxyz",ALPH[26]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char pt[100],ct[100],key[100];
+int pmat[3][1],kmat[3][3],cmat[3][1];
+int pval[100],kval[100];
+int i,j,k=0,p=0,counter=0;
+void Encrypt()
+{
+printf("Enter the plaintext:");
+fgets(pt,sizeof(pt),stdin);
+printf("Enter the key:");
+fgets(key,sizeof(key),stdin);
+for(i=0;i<strlen(pt);i++)
+{
+for(j=0;j<26;j++)
+{
+if(pt[i]==alph[i])
+counter=1;
+else if(pt[i]==ALPH[i])
+counter=2;
+}
+}
+for(i=0;i<strlen(pt);i++)
+{
+for(j=0;j<26;j++)
+{
+if(pt[i]==alph[j])
+pval[i]=j;
+else if(pt[i]==ALPH[j])
+pval[i]=j;
+}
+}
+
+for(i=0;i<strlen(key);i++)
+{
+for(j=0;j<26;j++)
+{
+if(key[i]==alph[j])
+kval[i]=j;
+else if(key[i]==ALPH[j])
+kval[i]=j;
+}
+}
+
+for(i=0;i<3;i++)
+{
+for(j=0;j<3;j++)
+{
+kmat[i][j]=kval[k++];    
+}
+}
+for(i=0;i<3;i++)
+{
+for(j=0;j<1;j++)
+{
+pmat[i][j]=pval[p++];
+}
+}
+
+for(i=0;i<3;i++)
+{
+for(j=0;j<1;j++)
+{
+cmat[i][j]=0;
+for(int k=0;k<3;k++)
+{
+cmat[i][j]+=kmat[i][k]*pmat[k][j];
+}
+}
+}
+
+for(i=0;i<3;i++)
+{
+for(j=0;j<1;j++)
+{
+ct[i]=cmat[i][j]%26;
+
+}
+}
+
+printf("Encrypted text:");
+for(i=0;i<3;i++)
+{
+if(counter==1)
+printf("%c",alph[ct[i]]);
+else
+printf("%c",ALPH[ct[i]]);
+}
+}
+int main()
+{
+Encrypt();
+return 0;
+}
+
+Rsa
+
+#include<stdio.h>
+long power(int base,int expo)
+{
+ long res=base;
+ int i=1;
+ if (expo==0)
+ return 1;
+ else
+ {
+ while(i<expo)
+ {
+ res=res*base;
+ i=i+1;
+ }
+ return res;
+ }
+}
+int main()
+{
+ long ct,dt;
+ int i=2,j,p=3,q=11,n,z,d=0,e=0,temp,temp_ct,msg=9;
+ n=p*q;
+ z=(p-1)*(q-1);
+ printf("The Value of N is :%d\nThe Value of Z is :%d",n,z);
+ while(i<z)
+ {
+ if(z%i!=0)
+ {
+ e=i;
+break;
+ }
+ else
+ i=i+1;
+ }
+ for (j=0;j<z;j++)
+ {
+ temp=j*e;
+ if (temp%z==1)
+ {
+ d=j;
+ break;
+ }
+ }
+ printf("\nThe value of E is %d\nThe Value of D is %d",e,d);
+ ct=power(msg,e)%n;
+ temp_ct=(int) ct;
+ dt=power(temp_ct,d)%n;
+ printf("\nThe Encrypted text is :%ld\nThe Decrypted text is 
+%ld",ct,dt);
+}
